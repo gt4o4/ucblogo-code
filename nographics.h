@@ -94,6 +94,13 @@ extern int pw, ph, pc, pm, pv, px, py, bg;
 extern void nop();
 
 #define logofill nop
-#define set_palette nop
-#define get_palette nop
+static inline void set_palette(int n, unsigned int r, unsigned int g, unsigned int b) {
+    (void)n; (void)r; (void)g; (void)b;
+}
+static inline void get_palette(int n, unsigned int *r, unsigned int *g, unsigned int *b) {
+    (void)n;
+    if (r) *r = 0;
+    if (g) *g = 0;
+    if (b) *b = 0;
+}
 #define erase_screen nop
