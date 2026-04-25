@@ -1,0 +1,30 @@
+;;; Fixed-point combinator for UCB Logo
+;;;
+;;; Y :f :arg  --  applies recursive template :f to itself and :arg.
+;;; Inside the template: ?1 = self-reference (the template), ?2 = argument.
+;;; Recurse with:  Y ?1 <new-arg>
+;;;
+;;; This avoids the .SETFIRST mutation trick: state is carried as an
+;;; explicit argument rather than embedded in the template's tail list.
+
+to y :f :arg
+  output apply :f (list :f :arg)
+end
+
+;;; Factorial: n! for integer n >= 0.
+;;;   print fact-y 10   =>  3628800
+to fact-y :n
+  output y [ifelse equalp ?2 0
+               [output 1]
+               [output ?2 * y ?1 (?2 - 1)]]
+           :n
+end
+
+;;; Fibonacci: fib(n) for integer n >= 0.
+;;;   print fib-y 10    =>  55
+to fib-y :n
+  output y [ifelse lessp ?2 2
+               [output ?2]
+               [output (y ?1 (?2 - 1)) + (y ?1 (?2 - 2))]]
+           :n
+end
